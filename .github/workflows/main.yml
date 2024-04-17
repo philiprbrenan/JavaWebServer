@@ -1,0 +1,29 @@
+# Test 2024-04-17 at 23:23:37
+
+name: Test
+
+on:
+  push:
+    paths:
+      - '**/main.yml'
+jobs:
+
+  test:
+    permissions: write-all
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        ref: 'main'
+
+    - name: Test Web Server
+      run: |
+        java webServer.java &
+        sleep 4 # Web server has to have time to compile and start
+        curl -s -o zzz.txt -X POST   -H "Content-Type: application/json" -d '{"key1":"value1","key2":"value2"}'   http://localhost:8080/aaa/bbb
+        ls -la
+
+    - name: Test Web Server output
+      run: |
+        cat zzz.txt
