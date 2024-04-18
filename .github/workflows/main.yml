@@ -1,4 +1,4 @@
-# Test 2024-04-17 at 23:23:37
+# Test 2024-04-18 at 18:18:31
 
 name: Test
 
@@ -27,3 +27,14 @@ jobs:
     - name: Test Web Server output
       run: |
         cat zzz.txt
+
+    - name: Empty Url
+      run: |
+        java webServer.java &
+        sleep 4
+        curl -s -o zzz2.txt -X POST   -H "Content-Type: application/json" -d '{"key1":"value1","key2":"value2"}'   http://localhost:8080
+        ls -la
+
+    - name: Test Web Server output
+      run: |
+        cat zzz2.txt
