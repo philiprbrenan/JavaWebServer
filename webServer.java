@@ -30,21 +30,21 @@ class WebServer                                                                 
   public static void main(String[] args)                                        // Run the web server
    {try
      {ServerSocket serverSocket = new ServerSocket(port);                       // Create a server socket listening on port 8080
-      say("Server started. Listening on port", port);
+      say("Vanina server started. Listening on port", port);
 
       while (true)
        {try(final Socket clientSocket = serverSocket.accept())
          {final String request = readInput(clientSocket.getInputStream());      // Request as a string
           final String method  = getMethod(request);
           final String url     = getUrl(request);
-          final String[]urls   = url.split("/");
+          final String[]urls   = url != null ? url.split("/") : null;
 
           say("New connection from:", clientSocket.getInetAddress());
           say("Method             :", method);
           say("Url                :", url);
 
           String response = "HTTP/1.1 200 OK\r\n\r\n";                          // Prepare response
-          if (urls.length > 2)
+          if (urls != null && urls.length > 2)
             response += "<html><body><h1>"+urls[1]+"  "+urls[2]+"!</h1></body></html>";
           else
             response += "<html><body><h1> Hello Vanina!</h1></body></html>\n\n";
